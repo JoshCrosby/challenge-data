@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# for dev we do deps build/compile at run time since we are importing the volume
+
+################################################
+
+if [[ package.json -nt node_modules || ! -d node_modules ]]; then
+    echo "===> Detected need for recompile..."
+    rm -rf /root/.cache
+    npm install || exit 1
+fi
+
+echo "===> starting hello db migrations..."
+# npm run create stuff
+
+echo "===> starting hello in dev mode..."
+# exec run things here
