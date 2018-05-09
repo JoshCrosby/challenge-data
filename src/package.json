@@ -1,0 +1,19 @@
+{
+    "name": "base",
+    "author": "Brandon Gillespie",
+    "license": "AGPL-3.0",
+    "private": true,
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "migrate": "echo not configured"
+    },
+    "dependencies": {
+        "config": "*",
+        "express": "~4.0.0",
+        "body-parser": "~1.0.1"
+    },
+    "devDependencies": {
+    }
+}
