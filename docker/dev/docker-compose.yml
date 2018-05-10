@@ -22,8 +22,11 @@ services:
       - data:/var/lib/mysql
       - shared:/shared
     environment:
-        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_USER=pyr
+        - MYSQL_PASSWORD=pyr
         - MYSQL_HOST=%
+        - MYSQL_ROOT_PASSWORD=password1
+        - MYSQL_ROOT_HOST=%
 volumes:
   data:
   shared:
