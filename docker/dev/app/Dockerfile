@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:9-slim
 
 ENV APP_BASE=/app
 ARG BUILD_ENV
@@ -7,4 +7,4 @@ WORKDIR $APP_BASE
 
 COPY docker/$BUILD_ENV /docker/
 
-ENTRYPOINT /bin/bash
+ENTRYPOINT sh
