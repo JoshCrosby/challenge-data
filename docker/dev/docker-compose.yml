@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  challenge:
+  app:
     image: challenge:dev
     build:
       context: ../..
@@ -13,22 +13,22 @@ services:
       - ../../docker/dev:/docker
     depends_on:
       - db
+    stdin_open: true
+    tty: true
   db:
     build:
-        context: ../..
-        dockerfile: docker/dev/db/Dockerfile
-    image: mariadb:dev
+      context: ../..
+      dockerfile: docker/dev/db/Dockerfile
+    environment:
+      - MYSQL_USER=pyr
+      - MYSQL_PASSWORD=pyr
+      - MYSQL_HOST=%
+      - MYSQL_ROOT_PASSWORD=password1
+      - MYSQL_ROOT_HOST=%
     volumes:
       - data:/var/lib/mysql
-      - shared:/shared
-    environment:
-        - MYSQL_USER=pyr
-        - MYSQL_PASSWORD=pyr
-        - MYSQL_HOST=%
-        - MYSQL_ROOT_PASSWORD=Password1
-        - MYSQL_ROOT_HOST=%
     ports:
-        - 3306:3306
+      - 3306:3306
 volumes:
   data:
   shared:
