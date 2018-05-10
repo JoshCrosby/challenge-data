@@ -1,28 +1,29 @@
 version: '3.3'
 services:
-  hello:
-    image: hello:dev
+  challenge:
+    image: challenge:dev
     build:
       context: ../..
-      dockerfile: docker/dev/Dockerfile
+      dockerfile: docker/dev/app/Dockerfile
       args:
         - MIX_ENV=dev
-#        - MIX_ENV=prod
     volumes:
       - ../../src:/app/src
       - shared:/shared
       - ../../docker/dev:/docker
     depends_on:
       - db
-    ports:
-      - "4000:4000"
   db:
-    image: mariadb
+    build:
+        context: ../..
+        dockerfile: docker/dev/db/Dockerfile
+    image: mariadb:dev
     volumes:
-      - mydata:/var/lib/mysql
+      - data:/var/lib/mysql
       - shared:/shared
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_HOST=%
 volumes:
   mydata:
   shared:
