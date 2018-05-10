@@ -2,7 +2,7 @@
 
 ## Problem
 
-[Don't insert to nested sets](https://robsite.net/wp-content/uploads/2012/03/3oc0f8.jpeg)
+![Don't insert to nested sets](https://robsite.net/wp-content/uploads/2012/03/3oc0f8.jpeg)
 
 Not familiar with nested sets? Read [this](http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/).
 
