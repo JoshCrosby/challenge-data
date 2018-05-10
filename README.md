@@ -11,26 +11,27 @@ them in full from the source every time a change is made.
 
 ## Requirements
 
-1) Read full `test.tree` table into a program. Calculate the lft and rgt values for the nested sets.
+1) App must be implemented in NodeJS
+2) Read full `test.tree` table into a program. Calculate the lft and rgt values for the nested sets.
 Result should match the lft and rgt values in the `test.tree` table.
-2) Add a node to the tree. Relcalculate the nested sets.
-3) Move a node within the tree. Relcalculate the nested sets.
-4) App must be implemented in NodeJS
+
+Challenge needs to be completed outside of regular work hours. We suggest spending at least 2 hours on the challenge but no more than roughly 5 hours.
 
 ## Competition
 
 Consideration will be given to the following for scoring:
 
-1) Correctness of the nested sets
-2) Average Speed of execution over multiple iterations
-3) Use of proper idiomatic patterns in NodeJS
+1) Program runs and completes the calculation of the nested sets (lft, rgt) values
+2) Correctness of the nested sets
+3) Average Speed of execution over multiple iterations
+4) Use of proper idiomatic patterns in NodeJS
     * Promises
     * async/await
     * Dependency Injection
     * Testability
     * Linting (standard is nice)
-4) Unit Tests
-5) Enforced automated linting / tests when committing code
+5) Unit Tests
+6) Enforced automated linting / tests when committing code
 
 A strawman folder for an node project running within docker
 
