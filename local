@@ -30,22 +30,27 @@ def main():
                     "sh", "run-sh", "raw-sh", "kill", "build", "scale", "prune")[0]
     extra = sys.argv
 
-    cmd = [getcmd("docker-compose"), "-f", "docker/" + mode + "/docker-compose.yml"]
+    cmd = [getcmd("docker-compose"), "-f", f"docker/{mode}/docker-compose.yml"]
 
     # direct pass-thru.  add: `app scale=3` to cluster
     if action in ["build", "ps", "exec", "up", "run", "down", "kill"]:
         cmd += [action]
         if mode == "test":
-            cmd += ["--force-recreate", "--build", "--abort-on-container-exit", "--exit-code-from " + APP]
+            cmd += [
+                "--force-recreate",
+                "--build",
+                "--abort-on-container-exit",
+                f"--exit-code-from {APP}",
+            ]
         if action == "build":
-            cmd += ["--build-arg", "BUILD_ENV=" + mode]
+            cmd += ["--build-arg", f"BUILD_ENV={mode}"]
             cmd += [APP]
     elif action == "scale":
         if extra:
-            cmd += ["scale", APP + "=" + extra[0]]
+            cmd += ["scale", f"{APP}={extra[0]}"]
             extra = extra[1:]
         else:
-            cmd += ["scale", APP + "=3"]
+            cmd += ["scale", f"{APP}=3"]
     elif action == "prune":
         cmd = [getcmd("docker"), "system", "prune", "-f"]
     elif action == "iex":
@@ -62,7 +67,7 @@ def main():
 
     if extra:
         cmd += extra
-    
+
     do(cmd)
 
 ################################################################################
@@ -73,7 +78,7 @@ def getcmd(cmd):
         path = os.path.join(part, cmd)
         if os.path.exists(path) and os.access(path, os.X_OK):
             return path
-    exit("Unable to find '" + cmd + "' in your path!")
+    exit(f"Unable to find '{cmd}' in your path!")
 
 def do(args):
     sys.stderr.write("\n>>>")
@@ -84,27 +89,25 @@ def do(args):
             arg0 = False
         if " " in arg:
             arg = json.dumps(arg) # easy way to get quoting right
-        sys.stderr.write(" " + arg)
+        sys.stderr.write(f" {arg}")
     sys.stderr.write("\n\n")
     os.execv(args[0], args)
 
 # note: I could load pyyaml, but I want to keep out external dependencies
 def getimage(mode):
-    with open("docker/" + mode + "/docker-compose.yml") as cfg:
+    with open(f"docker/{mode}/docker-compose.yml") as cfg:
         app=False
         for line in cfg:
             if re.match(r'^\s*' + APP + ':', line):
                 app = True
-            if app:
-                if re.match(r'^\s*image:', line):
-                    image = line.split(':')[1].strip()
-                    return image
+            if app and re.match(r'^\s*image:', line):
+                return line.split(':')[1].strip()
     exit("Unable to find image?")
 
 def optmatch(pattern, match):
     match = str(match).lower().split("=", 1)[0]
     for variant in pattern.split("|"):
-        req, opt = (variant + "?").split("?")[0:2]
+        req, opt = f"{variant}?".split("?")[:2]
         if req == match:
             return True
         for char in opt:
@@ -126,7 +129,7 @@ def getarg(label, *opts):
                 elif len(sys.argv):
                     value = sys.argv.pop(0)
                 else:
-                    syntax("Unable to get value for " + opt)
+                    syntax(f"Unable to get value for {opt}")
             opt = opt.split("|")[0]
             return opt.replace("?", ""), value
     syntax("No match for {" + label + "}")
@@ -163,7 +166,7 @@ Any extra arguments are passed onto following commands.
 * these are wrapped pass-thru to docker-compose
     """)
     if err:
-        print("==> " + err[0] + "\n")
+        print(f"==> {err[0]}" + "\n")
     sys.exit(0)
 
 if __name__ == '__main__':
